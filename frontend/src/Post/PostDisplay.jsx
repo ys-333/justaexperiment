@@ -1,11 +1,15 @@
-import React, { useState, forwardRef, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Input from '../Custom/Input'
 
 const PostDisplay = ({ posts }) => {
   // hooks
+
   const [Posts, setPosts] = useState(posts)
   const [isEditing, setIsEditing] = useState(false)
   const inputRef = useRef()
+  useEffect(() => {
+    setPosts(posts)
+  }, [posts])
 
   const editHandler = async (postId) => {
     const editedPost = inputRef.current.value
@@ -24,7 +28,18 @@ const PostDisplay = ({ posts }) => {
 
     const updatedPost = await response.json()
 
-    console.log(Posts)
+    console.log(updatedPost)
+
+    const newPost = Posts.map((post) => {
+      if (post.id === updatedPost.data.id) {
+        console.log(post.id, updatedPost.data.id)
+        return updatedPost.data
+      } else return post
+    })
+
+    console.log(newPost)
+
+    setPosts(newPost)
 
     setIsEditing((prev) => !prev)
   }
@@ -40,7 +55,7 @@ const PostDisplay = ({ posts }) => {
           <th>Edit/Delete</th>
         </tr>
         <tbody>
-          {posts.map((post) => {
+          {Posts.map((post) => {
             return (
               <tr key={post.id}>
                 <td>{post.id}</td>
