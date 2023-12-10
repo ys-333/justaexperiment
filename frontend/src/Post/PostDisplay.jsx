@@ -3,7 +3,7 @@ import Input from '../Custom/Input'
 
 const PostDisplay = ({ posts }) => {
   // hooks
-
+  const [Posts, setPosts] = useState(posts)
   const [isEditing, setIsEditing] = useState(false)
   const inputRef = useRef()
 
@@ -21,6 +21,10 @@ const PostDisplay = ({ posts }) => {
         'Content-Type': 'application/json',
       },
     })
+
+    const updatedPost = await response.json()
+
+    console.log(Posts)
 
     setIsEditing((prev) => !prev)
   }

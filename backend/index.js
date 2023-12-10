@@ -68,8 +68,8 @@ app.patch('/post/:postId', async (req, res) => {
     return res.send({ err: 'Something went wrong', data: [] }).status(500)
   }
 
-  const Posts = await Post.find()
-  return res.status(200).send({ data: Posts })
+  // const Posts = await Post.find()
+  return res.status(200).send({ data: response })
 })
 
 const PORT = process.env.PORT
