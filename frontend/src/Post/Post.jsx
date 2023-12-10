@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import PostDisplay from './PostDisplay'
 
-const url = 'http://localhost:3000/post'
+const url = 'https://crud-backend-gules.vercel.app/post'
 
 const Post = () => {
   const [posts, setPosts] = useState([])

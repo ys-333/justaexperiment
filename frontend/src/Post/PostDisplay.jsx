@@ -18,13 +18,16 @@ const PostDisplay = ({ posts }) => {
 
     if (editedPost.length === 0) return
 
-    const response = await fetch(`http://localhost:3000/post/${postId}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ editedPost }),
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      `https://crud-backend-gules.vercel.app/${postId}`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify({ editedPost }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    })
+    )
 
     const updatedPost = await response.json()
 
