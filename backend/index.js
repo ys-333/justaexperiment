@@ -72,6 +72,24 @@ app.patch('/post/:postId', async (req, res) => {
   return res.status(200).send({ data: response })
 })
 
+app.delete('/post/:postId', async (req, res) => {
+  const { postId } = req.params
+
+  const post = await Post.find({ id: postId })
+
+  const query = await Post.findByIdAndDelete({ _id: post[0]._id })
+
+  // if (!query) {
+  //   return res.status(500).send({ err: 'Something went wrong', data: [] })
+  // }
+
+  // console.log(query)
+
+  const Posts = await Post.find()
+
+  return res.status(200).send({ data: Posts })
+})
+
 const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(PORT)
