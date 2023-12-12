@@ -11,6 +11,8 @@ const PostDisplay = ({ posts }) => {
     setPosts(posts)
   }, [posts])
 
+  // to edit resource
+
   const editHandler = async (postId) => {
     const editedPost = inputRef.current.value
 
@@ -18,7 +20,7 @@ const PostDisplay = ({ posts }) => {
 
     if (editedPost.length === 0) return
 
-    const response = await fetch(`http://localhost:3000/${postId}`, {
+    const response = await fetch(`http://localhost:3000/post/${postId}`, {
       method: 'PATCH',
       body: JSON.stringify({ editedPost }),
       headers: {
@@ -37,12 +39,33 @@ const PostDisplay = ({ posts }) => {
       } else return post
     })
 
-    console.log(newPost)
+    console.log(postId)
 
     setPosts(newPost)
 
     setIsEditing((prev) => !prev)
   }
+
+  // delete resource
+
+  const deleteHandler = async (postId) => {
+    console.log(postId)
+    const response = await fetch(`http://localhost:3000/post/${postId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    // to be done
+
+    const data = await response.json()
+
+    if (data.data.length === 0) alert('something went wrong')
+
+    setPosts(data.data)
+  }
+
   return (
     <React.Fragment>
       {isEditing && (
@@ -74,7 +97,7 @@ const PostDisplay = ({ posts }) => {
                       Save
                     </button>
                   )}
-                  <button>Delete</button>
+                  <button onClick={() => deleteHandler(post.id)}>Delete</button>
                 </td>
               </tr>
             )
