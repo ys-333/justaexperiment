@@ -1,0 +1,38 @@
+.form {
+  position: absolute;
+  top: 30%;
+  left: 36%;
+  width: 50%;
+}
+.label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-family: cursive;
+  font-weight: 100;
+}
+.input {
+  height: 1.6rem;
+  border: 1px solid burlywood;
+  padding: 4px;
+  border-radius: 6px;
+  width: 50%;
+}
+.input:focus {
+  outline: none;
+  border: 1px solid rgb(212, 123, 6);
+}
+
+.container {
+  margin-bottom: 18px;
+}
+.submit {
+  width: 53%;
+  padding: 0.4rem;
+  border: 1px solid burlywood;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.submit:hover {
+  background-color: white;
+}
