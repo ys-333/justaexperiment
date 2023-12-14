@@ -1,10 +1,16 @@
 import Post from './components/Post/Post'
-function App() {
-  return (
-    <div>
-      <Post />
-    </div>
-  )
-}
+import Login from './components/Login/Login'
+import { createBrowserRouter } from 'react-router-dom'
 
-export default App
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Post />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+])
+
+export default router
