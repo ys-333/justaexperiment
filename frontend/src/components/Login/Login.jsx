@@ -1,7 +1,6 @@
+import { useReducer, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './Login.module.css'
-
-import { useReducer } from 'react'
-import { useState } from 'react'
 
 // for state management we would be using useReducer
 
@@ -46,6 +45,9 @@ function reducerFn(state, action) {
 const Login = () => {
   const [state, dispatch] = useReducer()
   const [isLogin, setIsLogin] = useState(true)
+
+  const location = useLocation()
+  const navigate = useNavigate()
 
   function changeHandler(type, value) {
     switch (type) {
@@ -132,6 +134,7 @@ const Login = () => {
           <button
             onClick={() => {
               setIsLogin((prev) => !prev)
+              navigate('/login')
             }}
           >
             Create Account? Sign up
@@ -140,6 +143,7 @@ const Login = () => {
           <button
             onClick={() => {
               setIsLogin((prev) => !prev)
+              navigate('/login')
             }}
           >
             Already User? Login

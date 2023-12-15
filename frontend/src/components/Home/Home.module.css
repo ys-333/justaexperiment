@@ -1,0 +1,22 @@
+.list {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: black;
+  height: 3rem;
+  border-radius: 6px;
+  color: white;
+}
+.btn {
+  padding-block: 0.4rem;
+  padding-inline: 1.2rem;
+  border-radius: 9px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+a {
+  text-decoration: none;
+  color: white;
+}
