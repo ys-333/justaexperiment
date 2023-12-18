@@ -7,6 +7,7 @@ const Post = require('./models/Post')
 
 //router imports
 const postRouter = require('./routes/Post')
+const authRouter = require('./routes/Auth')
 // databse configuration
 
 connectDb()
@@ -17,6 +18,7 @@ connectDb()
 app.use(express.json())
 app.use(cors())
 
+app.use('', authRouter)
 app.use('', postRouter)
 
 const PORT = process.env.PORT
