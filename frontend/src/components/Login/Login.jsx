@@ -4,7 +4,7 @@ import styles from './Login.module.css'
 
 // for state management we would be using useReducer
 
-const initalState = {
+let initalState = {
   name: 'xyz',
   email: 'xyz@gmail.com',
   password: 'xyz',
@@ -22,20 +22,20 @@ function reducerFn(state, action) {
     case 'email': {
       return {
         ...state,
-        name: action.value,
+        email: action.value,
       }
     }
     case 'password': {
       return {
         ...state,
-        name: action.value,
+        password: action.value,
       }
     }
     case 'location':
       {
         return {
           ...state,
-          name: action.value,
+          location: action.value,
         }
       }
       throw Error('Undefined Acion type' + action.type)
@@ -43,13 +43,14 @@ function reducerFn(state, action) {
 }
 
 const Login = () => {
-  const [state, dispatch] = useReducer()
+  const [state, dispatch] = useReducer(reducerFn, initalState)
   const [isLogin, setIsLogin] = useState(true)
 
   const location = useLocation()
   const navigate = useNavigate()
 
   function changeHandler(type, value) {
+    console.log(type, value)
     switch (type) {
       case 'name':
         dispatch({ type: 'name', value })
@@ -66,13 +67,36 @@ const Login = () => {
     setIsLogin((prev) => !prev)
   }
 
-  const submitHandler = () => {
+  const submitHandler = async (e) => {
     // ? submit handler
+    e.preventDefault()
+
+    console.log(state)
+
+    const response = await fetch('http://localhost:3000/signup', {
+      method: 'POST',
+      body: JSON.stringify(state),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    const data = await response.json()
+
+    console.log(data)
+
+    if (!data.success) {
+      alert(data.message)
+      return
+    }
+
+    alert(data.data)
+    setIsLogin((prev) => !prev)
   }
 
   return (
     <div className={styles.form}>
-      <form>
+      <form onSubmit={submitHandler}>
         {!isLogin && (
           <div className={styles.container}>
             <label className={styles.label} htmlFor="name">
@@ -83,6 +107,7 @@ const Login = () => {
               type="text"
               id="name"
               placeholder="Full Name.."
+              onChange={(e) => changeHandler('name', e.target.value)}
             />
           </div>
         )}
@@ -95,6 +120,7 @@ const Login = () => {
             type="text"
             id="email"
             placeholder="email"
+            onChange={(e) => changeHandler('email', e.target.value)}
           />
         </div>
         <div className={styles.container}>
@@ -106,6 +132,7 @@ const Login = () => {
             type="password"
             id="password"
             placeholder="password"
+            onChange={(e) => changeHandler('password', e.target.value)}
           />
         </div>
         {!isLogin && (
@@ -118,6 +145,7 @@ const Login = () => {
               type="text"
               id="Location"
               placeholder="location"
+              onChange={(e) => changeHandler('location', e.target.value)}
             />
           </div>
         )}
