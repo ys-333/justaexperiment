@@ -4,9 +4,11 @@ require('dotenv').config()
 const cors = require('cors')
 const connectDb = require('./config/db')
 const Post = require('./models/Post')
+
 //router imports
 const postRouter = require('./routes/Post')
 // databse configuration
+
 connectDb()
 
 // router middleware
