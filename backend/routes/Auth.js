@@ -3,7 +3,10 @@ const Router = express.Router()
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
 
-const { signUpValidator } = require('../middleware/validation-middleware') //to validate input
+const {
+  signUpValidator,
+  logInValidator,
+} = require('../middleware/validation-middleware') //to validate input
 
 // format - >name email password location
 
@@ -13,8 +16,6 @@ Router.post('/signup', signUpValidator, async (req, res) => {
   const { name, email, password, location } = req.body
 
   const hashedPassword = await bcrypt.hash(password, 10)
-
-  console.log(hashedPassword)
 
   const user = new User({ name, email, password: hashedPassword, location })
 
@@ -43,4 +44,37 @@ Router.post('/signup', signUpValidator, async (req, res) => {
   }
 })
 
+// to login user
+
+Router.post('/login', logInValidator, async (req, res) => {
+  console.log('login')
+  const { email, password } = req.body
+
+  const user = await User.findOne({ email: email })
+
+  console.log(user)
+
+  if (!user)
+    return res
+      .status(404)
+      .send({ success: false, message: 'User do not exist', data: user })
+  else {
+    const isValidPassword = await bcrypt.compare(password, user.password)
+
+    if (!isValidPassword)
+      return res.status(412).send({
+        success: false,
+        message: 'Check your email and password',
+        data: isValidPassword,
+      })
+
+    return res.send({ success: true, message: 'Authenticated', user })
+  }
+  // verify password
+})
+
 module.exports = Router
+
+// // we can not simply store the plain password - > we need to hashed it
+//   inspite of algo like sha256 md1, and all sor tof of
+// hashed +salt +

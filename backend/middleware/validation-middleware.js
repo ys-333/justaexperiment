@@ -8,7 +8,7 @@ const signUpValidator = async (req, res, next) => {
     location: 'required|string',
   }
 
-  await validator(req.body, signUpRules, {}, (error, status) => {
+  validator(req.body, signUpRules, {}, (error, status) => {
     if (!status) {
       return res.status(412).send({
         success: false,
@@ -19,4 +19,20 @@ const signUpValidator = async (req, res, next) => {
   }).catch((err) => console.log(err))
 }
 
-module.exports = { signUpValidator }
+const logInValidator = async (req, res, next) => {
+  const logInRules = {
+    email: 'required|email',
+    password: 'required',
+  }
+  validator(req.body, logInRules, {}, (error, status) => {
+    if (!status) {
+      return res.status(412).send({
+        success: false,
+        message: 'Authentication Failed',
+        data: error,
+      })
+    } else next()
+  }).catch((err) => console.log(err))
+}
+
+module.exports = { signUpValidator, logInValidator }

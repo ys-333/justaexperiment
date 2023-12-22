@@ -94,9 +94,36 @@ const Login = () => {
     setIsLogin((prev) => !prev)
   }
 
+  // login handler
+
+  const logInHandler = async (e) => {
+    e.preventDefault()
+
+    let credentials = {
+      email: state.email,
+      password: state.password,
+    }
+
+    const response = await fetch('http://localhost:3000/login', {
+      method: 'POST',
+      body: JSON.stringify(credentials),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    const data = await response.json()
+
+    if (!data.success) {
+      alert('Login Failed due to incorrect credentials')
+    }
+
+    console.log(data.data)
+  }
+
   return (
     <div className={styles.form}>
-      <form onSubmit={submitHandler}>
+      <form>
         {!isLogin && (
           <div className={styles.container}>
             <label className={styles.label} htmlFor="name">
@@ -154,6 +181,7 @@ const Login = () => {
             type="submit"
             value={isLogin ? 'Login' : 'Signup'}
             className={styles.submit}
+            onClick={isLogin ? logInHandler : submitHandler}
           />
         </div>
       </form>
